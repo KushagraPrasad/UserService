@@ -32,17 +32,20 @@ public class SecurityConfiguration {
 		http.csrf().disable().authorizeRequests().antMatchers("/auth/**").permitAll().anyRequest().authenticated().and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authenticationProvider(authenticationProvider)
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-		http.cors(); // Enable CORS globally
+				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).cors(); // Enable
+																												// CORS
+																												// globally
+
 		return http.build();
 	}
 
 	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
+	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4000"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+		configuration.setAllowCredentials(true); // Allow credentials for CORS requests
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
