@@ -1,5 +1,6 @@
 package com.example.user.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,5 +36,9 @@ public class UserServiceImpl implements UserServices {
 				.password(user.getPassword()) // Assuming the password is stored securely (e.g., hashed)
 				.roles(user.getRole().getName().toString()) // Assuming user has a single role
 				.build();
+	}
+
+	public List<User> showAll() {
+		return userRepository.findAll();
 	}
 }
